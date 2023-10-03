@@ -1,0 +1,92 @@
+version: 2
+
+models:
+  - name: fct_orders
+    description: |
+      Orders overview data mart, offering key details for each order. 
+      One row per order.
+    columns:
+      - name: order_id
+        description: Primary key for orders
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: |
+          The foreign key relating to the customer who placed the order
+      - name: order_date
+        description: |
+          The timestamp the order was placed at
+      - name: amount
+        description: |
+          The total amount of the order in USD
+
+semantic_models:
+  - name: fct_orders # The name of the semantic model
+    defaults:
+      agg_time_dimension: order_date
+    description: |
+      Order fact table. This table is at the order grain with one row per order
+    model: ref('fct_orders') # The name of the dbt model and schema
+    # Entities - These usually correspond to keys in the table
+    entities:
+      - name: order_id
+        type: primary
+
+      - name: customer_id
+        type: foreign
+        expr: customer_id
+
+    # Dimensions - Either categorical or time
+    # These add additional context to metrics
+    # The typical querying pattern is Metric by Dimension
+    dimensions:
+      # name - name of the group that will be visible to the user in downstream tools
+      # type - Categorical or Time
+      #      - specific type_params such as if the time is primary or used as a partition
+      # expr - The column name or expression. If not provided the default is the dimension name
+
+      - name: order_date
+        expr: order_date # order_date is the column name from the table
+        type: time
+        type_params:
+          time_granularity: day
+
+      - name: status
+        type: categorical
+        expr: status
+
+    # Measures are aggregations performed on columns in your model
+    measures:
+      - name: order_amount_usd
+        description: The total amount for each order in USD
+        agg: sum # aggregation type
+        # If the name you specified for a measure doesn't match a column name in your model
+        # you can use the expr parameter instead
+        expr: amount_usd
+        #label: order_amount_usd
+
+      - name: order_amount_usd_avg
+        description: Average USD value of orders
+        expr: amount_usd
+        agg: average
+        #label: order_amount_usd_avg
+
+      - name: distinct_orders_count
+        description: Distinct count of orders
+        expr: order_id
+        agg: count_distinct
+        #label: distinct_orders_count
+
+      - name: distinct_paid_orders
+        description: Distinct count of paid orders
+        agg: sum
+        expr: case when amount_usd != 0 then 1 else 0 end
+
+metrics:
+  - name: order_amount_usd
+    description: Sum of total order amount
+    type: simple
+    label: Order Total Amount USD
+    type_params:
+      measure: order_amount_usd

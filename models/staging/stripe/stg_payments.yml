@@ -1,0 +1,41 @@
+version: 2
+models:
+  - name: stg_payments
+    description: |
+      Stripe payments source
+    columns:
+      - name: payment_id
+        description: Primary key for stripe payments
+        meta:
+          dimension:
+            type: number
+      - name: order_id
+        description: foreign key for orders
+        meta:
+          dimension:
+            type: number
+      - name: payment_method
+        description: Payment method used
+        meta:
+          dimension:
+            type: string
+      - name: status
+        description: Status of payment
+        meta:
+          dimension:
+            type: string
+      - name: amount_usd
+        description: amount in USD
+        meta:
+          dimension:
+            type: number
+      - name: created_at
+        description: Creation date of payment
+        meta:
+          dimension:
+            type: date
+      - name: batched_at
+        description: Batch date of payment
+        meta:
+          dimension:
+            type: timestamp

@@ -1,0 +1,36 @@
+version: 2
+models:
+  - name: stg_orders
+    description: |
+      Jaffle shop orders source
+    columns:
+      - name: order_id
+        description: Primary key for orders
+        meta:
+          dimension:
+            type: number
+      - name: customer_id
+        description: The foreign key related to the customer who placed the order
+        tests:
+          - unique
+          - not_null
+        meta:
+          dimension:
+            type: number
+      - name: order_date
+        description: |
+          order date of order
+        meta:
+          dimension:
+            type: date
+      - name: status
+        description: |
+          status of order
+        meta:
+          dimension:
+            type: string
+      - name: etl_loaded_at
+        description: date of ingestion to db
+        meta:
+          dimension:
+            type: timestamp

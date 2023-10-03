@@ -1,0 +1,40 @@
+version: 2
+models:
+  - name: dim_customers
+    description: ""
+    columns:
+      - name: customer_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: first_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: last_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: first_order_date
+        description: ""
+        meta:
+          dimension:
+            type: date
+      - name: last_order_date
+        description: ""
+        meta:
+          dimension:
+            type: date
+      - name: cnt_orders
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: lifetime_value_usd
+        description: ""
+        meta:
+          dimension:
+            type: number

@@ -13,7 +13,7 @@ customer_orders as (
         min(order_date) as first_order_date,
         max(order_date) as last_order_date,
         count(order_id) as cnt_orders,
-        sum(amount_dollars) as lifetime_value
+        sum(amount_usd) as lifetime_value_usd
     from fct_orders
     group by 1
 ),
@@ -26,11 +26,10 @@ final as (
         co.first_order_date,
         co.last_order_date,
         coalesce(co.cnt_orders, 0) as cnt_orders,
-        co.lifetime_value
+        co.lifetime_value_usd
     from customers
     left join customer_orders co 
         on customers.customer_id = co.customer_id
 )
 
 select * from final
-

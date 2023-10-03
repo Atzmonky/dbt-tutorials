@@ -9,7 +9,7 @@ renamed as (
         "ORDERID" as order_id,
         "PAYMENTMETHOD" as payment_method,
         "STATUS" as status,
-        round(1.0 * "AMOUNT"/100, 3) as amount_dollars, 
+        round(1.0 * "AMOUNT"/100, 3) as amount_usd, 
         "CREATED" as created_at,
         "_BATCHED_AT" as batched_at
     from source

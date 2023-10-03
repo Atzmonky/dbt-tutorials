@@ -1,0 +1,26 @@
+version: 2
+models:
+  - name: stg_customers
+    description: |
+      Jaffle shop customers source
+    columns:
+      - name: customer_id
+        description: Primary key for customers
+        tests:
+          - unique
+          - not_null
+        meta:
+          dimension:
+            type: number
+      - name: first_name
+        description: |
+          First name of customer
+        meta:
+          dimension:
+            type: string
+      - name: last_name
+        description: |
+          Last name of customer
+        meta:
+          dimension:
+            type: string

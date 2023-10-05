@@ -32,9 +32,11 @@ models:
   dbt_tutorial:
     staging:
       +materialized: view
+      +schema: staging
     marts:
       core:
         +materialized: view
+        +schema: core
 
 dispatch:
   - macro_namespace: dbt

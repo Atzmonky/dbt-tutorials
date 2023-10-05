@@ -17,7 +17,10 @@ models:
       - name: order_date
         description: |
           The timestamp the order was placed at
-      - name: amount
+      - name: status
+        description: |
+          The status of placed order
+      - name: amount_usd
         description: |
           The total amount of the order in USD
 
